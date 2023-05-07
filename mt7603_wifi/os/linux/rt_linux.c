@@ -47,9 +47,11 @@
 #endif
 
 #if defined(CONFIG_RA_HW_NAT) || defined(CONFIG_RA_HW_NAT_MODULE)
-#include "../../../../../../../../net/nat/hw_nat/ra_nat.h"
-#include "../../../../../../../../net/nat/hw_nat/frame_engine.h"
+#include "../net/nat/hw_nat/ra_nat.h"
+#include "../net/nat/hw_nat/frame_engine.h"
 #endif
+
+#define FOE_MAGIC_WLAN 0x7274
 
 /* TODO */
 #undef RT_CONFIG_IF_OPMODE_ON_AP
