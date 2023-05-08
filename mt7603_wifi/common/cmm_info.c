@@ -6217,7 +6217,7 @@ static INT dump_ps_table(RTMP_ADAPTER *pAd, UINT32 ent_type, BOOLEAN bReptCli)
           {
                 printk("AC[%d] Length : %d\n", i, pAd->TxSwQueue[i].Number);
           }
-        printk("\n\n\n");
+        printk("\n");
 #endif /* LIMIT_GLOBAL_SW_QUEUE */
 	
 	printk("\n%-19s\t%-10s\t%-5s\t%-5s\t%-5s\t%-5s\t%-5s\t%-5s\t%-5s\t%-5s\t%-5s\t%-5s\t%-6s\t%-6s\t%-6s",
@@ -6471,7 +6471,7 @@ INT Show_BaTable_Proc(RTMP_ADAPTER *pAd, RTMP_STRING *arg)
 						pAd->MacTab.tr_entry[pEntry->wcid].TxSeq[j]);
 			}
 		}
-		printk("\n\n");
+		printk("\n");
 	}
 
 	return TRUE;
@@ -7406,7 +7406,7 @@ INT32 GetMixModeRssi_Proc(RTMP_ADAPTER *pAd, RTMP_STRING *arg)
 
 	if (MixMode_On(pAd)) {
 		DBGPRINT(RT_DEBUG_ERROR,
-				("\n\n\nQuery::!!!Mix Mode runnning, CANNOT GET RESULT NOW!!!\n\n\n"));
+				("\nQuery::!!!Mix Mode runnning, CANNOT GET RESULT NOW!!!\n"));
 		return FALSE;
 	}
 

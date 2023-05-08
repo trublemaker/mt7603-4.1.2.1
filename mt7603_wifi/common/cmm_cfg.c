@@ -1968,7 +1968,7 @@ INT SetTxRxCr_Proc(RTMP_ADAPTER *pAd, RTMP_STRING *arg)
 		RTMP_IO_READ32(pAd, 0x20024, &mac_val);
 
 		DBGPRINT(RT_DEBUG_ERROR, ("0x6000004c[0x81812A2A]=0x%08x\n", mac_val));
-		DBGPRINT(RT_DEBUG_ERROR, ("\n\n\n\n\n\n\n\n\n\n"));
+		//DBGPRINT(RT_DEBUG_ERROR, ("\n\n\n\n\n\n\n\n\n\n"));
 		DBGPRINT(RT_DEBUG_ERROR, ("=============================================\n"));
 	}
 	

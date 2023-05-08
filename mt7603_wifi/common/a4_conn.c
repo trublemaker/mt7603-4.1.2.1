@@ -701,7 +701,7 @@ INT Set_APProxy_Status_Show_Proc(
 							routing_entry->Retry, ROUTING_ENTRY_MAX_RETRY));
 				}
 
-				MTWF_LOG(DBG_CAT_ALL, DBG_SUBCAT_ALL, DBG_LVL_OFF, ("Total Count = %d\n\n", count));
+				MTWF_LOG(DBG_CAT_ALL, DBG_SUBCAT_ALL, DBG_LVL_OFF, ("Total Count = %d\n", count));
 			}
 		}
 	}

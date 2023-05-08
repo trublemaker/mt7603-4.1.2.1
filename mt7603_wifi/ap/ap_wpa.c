@@ -1219,7 +1219,7 @@ VOID WpaSend(RTMP_ADAPTER *pAdapter, UCHAR *pPacket, ULONG Len)
             case EAP_CODE_SUCCESS:
                 if ((pEntry->AuthMode >= Ndis802_11AuthModeWPA) && (pEapHdr->ProType != EAPOLKey))
                 {
-                    DBGPRINT(RT_DEBUG_TRACE,("Send EAP_CODE_SUCCESS\n\n"));
+                    DBGPRINT(RT_DEBUG_TRACE,("Send EAP_CODE_SUCCESS\n"));
                     if (pEntry->Sst == SST_ASSOC)
                     {
                         pEntry->WpaState = AS_INITPMK;
@@ -1238,7 +1238,7 @@ VOID WpaSend(RTMP_ADAPTER *pAdapter, UCHAR *pPacket, ULONG Len)
                     if (pAdapter->ApCfg.MBSSID[pEntry->func_tb_idx].WscControl.WscConfMode != WSC_DISABLE)
                         WscInformFromWPA(pEntry);
 #endif /* WSC_AP_SUPPORT */
-                    DBGPRINT(RT_DEBUG_TRACE,("IEEE8021X-WEP : Send EAP_CODE_SUCCESS\n\n"));
+                    DBGPRINT(RT_DEBUG_TRACE,("IEEE8021X-WEP : Send EAP_CODE_SUCCESS\n"));
                 }
                 break;
 

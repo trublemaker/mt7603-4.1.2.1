@@ -578,7 +578,7 @@ INT32 SetATELoadE2p(RTMP_ADAPTER *pAd, RTMP_STRING *Arg)
 	UINT32 Value = (UINT32)simple_strtol(Arg, 0, 10);
 	RTMP_OS_FS_INFO	OsFSInfo;
 
-	DBGPRINT(RT_DEBUG_OFF, ("===> %s (value=%d)\n\n", __FUNCTION__, Value));
+	DBGPRINT(RT_DEBUG_OFF, ("===> %s (value=%d)\n", __FUNCTION__, Value));
 
 	if (Value > 0)
 	{
@@ -666,7 +666,7 @@ INT32 SetATELoadE2pFromBuf(RTMP_ADAPTER *pAd, RTMP_STRING *Arg)
 	BOOLEAN Ret = FALSE;
 	UINT32 Value = (UINT32)simple_strtol(Arg, 0, 10);
 
-	DBGPRINT(RT_DEBUG_OFF, ("===> %s (Value=%d)\n\n", __FUNCTION__, Value));
+	DBGPRINT(RT_DEBUG_OFF, ("===> %s (Value=%d)\n", __FUNCTION__, Value));
 
 	if (Value > 0)
 	{

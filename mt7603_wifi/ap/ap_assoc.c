@@ -59,7 +59,7 @@ static void ap_assoc_info_debugshow(
 	{
 		assoc_ht_info_debugshow(pAd, pEntry, ie_list->ht_cap_len, &ie_list->HTCapability);
 
-		DBGPRINT(RT_DEBUG_TRACE, ("\n%s - Update AP OperaionMode=%d, fAnyStationIsLegacy=%d, fAnyStation20Only=%d, fAnyStationNonGF=%d\n\n",
+		DBGPRINT(RT_DEBUG_TRACE, ("\n%s - Update AP OperaionMode=%d, fAnyStationIsLegacy=%d, fAnyStation20Only=%d, fAnyStationNonGF=%d\n",
 					sAssoc, 
 					pAd->CommonCfg.AddHTInfo.AddHtInfo2.OperaionMode, 
 					pAd->MacTab.fAnyStationIsLegacy,
@@ -2801,7 +2801,7 @@ SendAssocResponse:
             */
             if (pEntry->bWscCapable || (ie_list->RSNIE_Len == 0))
             {
-			DBGPRINT(RT_DEBUG_TRACE, ("ASSOC - IF(ra%d) This is a WPS Client.\n\n", pEntry->func_tb_idx));
+			DBGPRINT(RT_DEBUG_TRACE, ("ASSOC - IF(ra%d) This is a WPS Client.\n", pEntry->func_tb_idx));
 			goto LabelOK;
             }
             else

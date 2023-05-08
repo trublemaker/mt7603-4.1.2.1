@@ -902,7 +902,7 @@ VOID RTMP_IO_READ_BULK(PRTMP_ADAPTER pAd, UCHAR *Dst, UINT32 Offset, UINT32 Len)
 	UCHAR *pDst;
 	BOOLEAN IsFound;
 
-	DBGPRINT(RT_DEBUG_WARN, ("\n\n"));
+	DBGPRINT(RT_DEBUG_WARN, ("\n"));
 
 	for (Index = 0 ; Index < (Len >> 2); Index++)
 	{
@@ -933,7 +933,7 @@ VOID RTMP_IO_READ_BULK(PRTMP_ADAPTER pAd, UCHAR *Dst, UINT32 Offset, UINT32 Len)
 		Offset += 4;
 	}
 
-	DBGPRINT(RT_DEBUG_WARN, ("\n\n"));
+	DBGPRINT(RT_DEBUG_WARN, ("\n"));
 
 	return;
 }
