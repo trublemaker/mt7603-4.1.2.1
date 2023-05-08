@@ -99,6 +99,7 @@ VOID APMlmeDynamicTxRateSwitching(RTMP_ADAPTER *pAd)
 
 
 		MlmeSelectTxRateTable(pAd, pEntry, &pTable, &TableSize, &InitTxRateIdx);
+		if(pTable == NULL) continue;
 		pEntry->pTable = pTable;
 
 #ifdef NEW_RATE_ADAPT_SUPPORT
@@ -528,7 +529,7 @@ VOID APQuickResponeForRateUpExec(
 			continue;
 
 		MlmeSelectTxRateTable(pAd, pEntry, &pTable, &TableSize, &InitTxRateIdx);
-
+		if(pTable == NULL) continue;
 		pEntry->pTable = pTable;
 
 #ifdef NEW_RATE_ADAPT_SUPPORT

@@ -2368,6 +2368,8 @@ VOID UpdateBasicRateBitmap(RTMP_ADAPTER *pAdapter)
 		pAdapter->CommonCfg.BasicRateBitmap = \
 										pAdapter->CommonCfg.BasicRateBitmapOld;
 	}
+	
+	bitmap = pAdapter->CommonCfg.BasicRateBitmap;  /* renew bitmap value */
 
     if (pAdapter->CommonCfg.BasicRateBitmap > 4095)
     {

@@ -1,20 +1,22 @@
 ifeq ($(CONFIG_SUPPORT_OPENWRT),y)
 ccflags-y = -I$(src)/../mt7603_wifi/include \
 		-I$(src)/../mt7603_wifi/ate/include
-DRV_NAME = mt7603e
+DRV_NAME = mt76x3_ap
 RT_WIFI_DIR = ../mt7603_wifi
 
 else
-ccflags-y = -Idrivers/net/wireless/mtk/mt7603e/mt7603_wifi/include \
-		-Idrivers/net/wireless/mtk/mt7603e/mt7603_wifi/ate/include
-#EXTRA_CFLAGS = -Idrivers/net/wireless/mtk/mt7603e/mt7603_wifi/include \
-		-Idrivers/net/wireless/mtk/mt7603e/mt7603_wifi/ate/include
+ccflags-y = -Idrivers/net/wireless/ralink/mt76x3/include \
+		-Idrivers/net/wireless/ralink/mt76x3/ate/include
+#EXTRA_CFLAGS = -Idrivers/net/wireless/ralink/mt76x3/include \
+		-Idrivers/net/wireless/ralink/mt76x3/ate/include
 
 WIFI_HEAD_GEN  = $(shell make -C drivers/net/wireless/rlt_wifi RT28xx_MODE=AP CHIPSET=mt7603e EE_TYPE=$(CONFIG_MT7603E_PA_LNA) sdk_build_tools >/dev/null)
 
-DRV_NAME = mt7603_wifi
+DRV_NAME = mt76x3_ap
 RT_WIFI_DIR = ../mt7603_wifi
 endif
+
+$(info Build MT76X3E: $(DRV_NAME) )
 
 ########################################################
 # Common files
@@ -70,7 +72,6 @@ rate_objs := $(RT_WIFI_DIR)/rate_ctrl/ra_ctrl.o\
 ifeq ($(CONFIG_MT7603E_NEW_RATE_ADAPT_SUPPORT),y)
     EXTRA_CFLAGS += -DNEW_RATE_ADAPT_SUPPORT
     rate_objs += $(RT_WIFI_DIR)/rate_ctrl/alg_grp.o
-
     ifeq ($(CONFIG_MT7603E_AGS_SUPPORT),y)
         EXTRA_CFLAGS += -DAGS_ADAPT_SUPPORT
         rate_objs += $(RT_WIFI_DIR)/rate_ctrl/alg_ags.o
@@ -132,13 +133,35 @@ ifeq ($(CONFIG_MT7603E_RTMP_USB_SUPPORT),y)
 		$(RT_WIFI_DIR)/os/linux/usb_main_dev.o
 endif
 
+ifeq ($(CONFIG_RT_DEBUG),y)
+	MTDEBUG = y
+	$(info CONFIG_RT_DEBUG $(CONFIG_RT_DEBUG) )
+else
+	ifeq ($(CONFIG_MT76X3_AP_DEBUG),y)
+    $(info CONFIG_MT76X3_AP_DEBUG $(CONFIG_MT76X3_AP_DEBUG) )
+	MTDEBUG = y
+	endif
+endif
+
+$(info CONFIG_MT76X3_AP_DEBUG $(CONFIG_MT76X3_AP_DEBUG)   CONFIG_RT_DEBUG $(CONFIG_RT_DEBUG)  )
+
+ifeq ($(MTDEBUG),y)
+	EXTRA_CFLAGS += -DDBG #mao --2020.04.11
+	EXTRA_CFLAGS += -DUAPSD_DEBUG
+	EXTRA_CFLAGS += -DTXRXCR_DEBUG_SUPPORT 
+	#EXTRA_CFLAGS += -DDBG_DIAGNOSE -DDBG_RX_MCS -DDBG_TX_MCS
+	EXTRA_CFLAGS += -DSYSTEM_LOG_SUPPORT
+	#EXTRA_CFLAGS += -DINT_STATISTIC
+	$(RT_DRV_NAME)-objs += $(RT_DRV_PATH)/common/sys_log.o
+endif
+
 ########################################################
 # Spec feature related files
 ########################################################
 spec_objs += $(RT_WIFI_DIR)/common/ps.o
 
 ifeq ($(CONFIG_MT7603E_UAPSD),y)
-    EXTRA_CFLAGS += -DUAPSD_SUPPORT -DUAPSD_DEBUG
+    EXTRA_CFLAGS += -DUAPSD_SUPPORT
      spec_objs += $(RT_WIFI_DIR)/common/uapsd.o
 endif
 
@@ -169,7 +192,7 @@ ifeq ($(CONFIG_MT7603E_WSC_INCLUDED),y)
         EXTRA_CFLAGS += -DSDK_USER_LIGHTY
     endif
 
-    ifneq ($(CONFIG_MT7603E_RLT_AP_SUPPORT),)
+    ifneq ($(CONFIG_MT76X3_AP),)
         EXTRA_CFLAGS += -DWSC_AP_SUPPORT
     endif
 
@@ -300,8 +323,10 @@ spec_objs += $(RT_WIFI_DIR)/common/ft.o\
                     $(RT_WIFI_DIR)/ap/ap_ftkd.o
 endif
 
+CONFIG_MT7603E_DOT11K_RRM_SUPPORT=y
 # RR
 ifeq ($(CONFIG_MT7603E_DOT11K_RRM_SUPPORT),y)
+	
 	EXTRA_CFLAGS += -DDOT11K_RRM_SUPPORT -DAP_SCAN_SUPPORT -DSCAN_SUPPORT -DAPPLE_11K_IOT
 spec_objs += $(RT_WIFI_DIR)/common/rrm_tlv.o\
                     $(RT_WIFI_DIR)/common/rrm_sanity.o\
@@ -432,6 +457,12 @@ ifeq ($(CONFIG_MT7603E_LED_CONTROL_SUPPORT),y)
         EXTRA_CFLAGS += -DWSC_LED_SUPPORT
     endif
 
+    ifeq ($(CONFIG_MT76X3_AP_LED_SOFT),y)
+    	EXTRA_CFLAGS += -DMT76X3_AP_LED_SOFT
+    endif
+    
+	EXTRA_CFLAGS += -DLED_SOFT_BLINK_GPIO=$(CONFIG_MT76X3_AP_LED_SOFT_GPIO)
+
     func_objs += $(RT_WIFI_DIR)/common/rt_led.o
 endif
 
@@ -489,6 +520,7 @@ ifeq ($(CONFIG_MIXMODE_SUPPORT),y)
 
     ap_objs += $(RT_WIFI_DIR)/ap/ap_mix_mode.o
 endif
+
 ifeq ($(CONFIG_MT7603E_APCLI_SUPPORT),y)
     EXTRA_CFLAGS += -DAPCLI_SUPPORT -DMAT_SUPPORT -DTRAFFIC_BASED_TXOP -DAPCLI_AUTO_CONNECT_SUPPORT
     ifeq ($(CONFIG_RALINK_MT7620),y)
@@ -556,10 +588,6 @@ endif
 ifeq ($(CONFIG_MT7603E_BAND_STEERING_7603),y)
     EXTRA_CFLAGS += -DBAND_STEERING
     ap_objs +=  $(RT_WIFI_DIR)/ap/ap_band_steering.o
-endif
-
-ifeq ($(CONFIG_MT7603E_OFFCHANNEL_SCAN_FEATURE),y)
-    EXTRA_CFLAGS += -DOFFCHANNEL_SCAN_FEATURE
 endif
 
 ifeq ($(CONFIG_MT7603E_DFS_SUPPORT),y)
@@ -705,10 +733,17 @@ endif
 #                    $(RT_WIFI_DIR)/chips/rt305x.o\
 #                    $(RT_WIFI_DIR)/chips/rt5350.o
 #endif
-CONFIG_PROPRIETARY_DRIVER=y
+
+#CONFIG_PROPRIETARY_DRIVER=y
 ifeq ($(CONFIG_PROPRIETARY_DRIVER),y)
 EXTRA_CFLAGS += -DCONFIG_PROPRIETARY_DRIVER
 endif
+
+#CONFIG_RALINK_FLASH_API=y
+ifeq ($(CONFIG_RALINK_FLASH_API),y)
+EXTRA_CFLAGS += -DCONFIG_RALINK_FLASH_API
+endif
+
 #ifeq ($(CONFIG_RALINK_RT6352),y)
 #EXTRA_CFLAGS += -DRT6352 -DRTMP_RF_RW_SUPPORT -DRTMP_FLASH_SUPPORT -DCONFIG_SWMCU_SUPPORT
 #EXTRA_CFLAGS += -DRTMP_RBUS_SUPPORT -DRTMP_MAC_PCI
@@ -785,7 +820,7 @@ endif
 #endif
 
 ifeq ($(CONFIG_MT7603E_RALINK_MT7603E),y)
-ccflags-y += -DMT7603 -DMT_BBP -DMT_RF -DRTMP_RF_RW_SUPPORT -DMT_MAC -DRTMP_MAC_PCI -DRTMP_PCI_SUPPORT -DMCS_LUT_SUPPORT
+ccflags-y += -DDOT11N_DRAFT3 -DAPCLI_CERT_SUPPORT -DMT7603 -DMT_BBP -DMT_RF -DRTMP_RF_RW_SUPPORT -DMT_MAC -DRTMP_MAC_PCI -DRTMP_PCI_SUPPORT -DMCS_LUT_SUPPORT
 EXTRA_CFLAGS += -DRTMP_EFUSE_SUPPORT -DCAL_FREE_IC_SUPPORT
 ccflags-y += -DRELEASE_EXCLUDE
 ccflags-y += -DMT_RF -DRTMP_RF_RW_SUPPORT
@@ -800,7 +835,11 @@ EXTRA_CFLAGS += -DUSE_BMC
 else
 ccflags-y += -DRTMP_WLAN_HOOK_SUPPORT -DUSE_BMC
 endif
-EXTRA_CFLAGS += -DMT_PS -DDMA_RESET_SUPPORT -DTXRXCR_DEBUG_SUPPORT
+
+##***************************************************************
+
+EXTRA_CFLAGS += -DMT_PS -DDMA_RESET_SUPPORT 
+#-DTXRXCR_DEBUG_SUPPORT
 EXTRA_CFLAGS += -DMT7603_E1
 EXTRA_CFLAGS += -DMT7603_E2
 EXTRA_CFLAGS += -DEDCCA_RB
@@ -916,7 +955,7 @@ endif
 #
 # Root 
 #
-obj-$(CONFIG_MT7603E_RLT_AP_SUPPORT) += $(DRV_NAME).o
+obj-$(CONFIG_MT76X3_AP) += $(DRV_NAME).o
 
 $(DRV_NAME)-objs += $(ap_objs) $(cmm_objs) $(asic_objs) $(chip_objs) $(rate_objs) $(inf_objs)\
                     $(spec_objs) $(func_objs) $(os_objs)
@@ -941,7 +980,8 @@ endif
 #  CFLAGS
 ##################
 EXTRA_CFLAGS += -DAGGREGATION_SUPPORT -DPIGGYBACK_SUPPORT -DWMM_SUPPORT  -DLINUX \
-               -Wall -Wstrict-prototypes -Wno-trigraphs -Wframe-larger-than=4096 -Werror
+               -Wall -Wstrict-prototypes -Wno-trigraphs -Wframe-larger-than=4096
+			   # -Werror
 #-DDBG_DIAGNOSE -DDBG_RX_MCS -DDBG_TX_MCS
 
 EXTRA_CFLAGS += -DCONFIG_AP_SUPPORT -DSCAN_SUPPORT -DAP_SCAN_SUPPORT
@@ -950,6 +990,8 @@ EXTRA_CFLAGS += -DDOT11_N_SUPPORT -DSTATS_COUNT_SUPPORT -DIAPP_SUPPORT -DDOT1X_S
 ifeq ($(CONFIG_RA_HW_NAT_WIFI_NEW_ARCH),n)
 EXTRA_CFLAGS += -DCONFIG_RA_NAT_NONE
 endif
+
+$(info EXTRA_CFLAGS $(EXTRA_CFLAGS))
 
 #provide busy time statistics for every TBTT */
 #EXTRA_CFLAGS += -DQLOAD_FUNC_BUSY_TIME_STATS 
@@ -1022,7 +1064,7 @@ ifeq ($(CONFIG_MT7603E_WPA3_SUPPORT),y)
         EXTRA_CFLAGS += -DAPCLI_SAE_SUPPORT
     endif
 endif
-ccflags-y += -DMAX_CONTINUOUS_TX_CNT
+
 ifeq ($(CONFIG_MT7603E_OWE_SUPPORT),y)
     EXTRA_CFLAGS += -DCONFIG_OWE_SUPPORT -DDOT11_SAE_OPENSSL_BN
     SRC_EMBEDDED_DIR = $(RT_WIFI_DIR)
@@ -1039,8 +1081,6 @@ endif
 ifeq ($(CONFIG_MT7603E_NEW_BW2040_COEXIST_SUPPORT),y)
     EXTRA_CFLAGS += -DNEW_BW2040_COEXIST_SUPPORT
 endif
-
-EXTRA_CFLAGS += -DAPCLI_CERT_SUPPORT
 
 MODULE_FLAGS=$(EXTRA_CFLAGS)
 export MODULE_FLAGS
