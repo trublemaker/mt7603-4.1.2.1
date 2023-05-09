@@ -64,7 +64,7 @@ VOID DisableAPMIMOPSv2(RTMP_ADAPTER *pAd)
 #endif /* defined (MT7603) || defined (MT7628) */
 
 	pAd->ApCfg.bGreenAPActive=FALSE;
-	DBGPRINT(RT_DEBUG_INFO, ("DisableAPMIMOPSNew, 30xx reserve only one antenna\n"));
+	DBGPRINT(RT_DEBUG_OFF, ("7603 DisableAPMIMOPSNew, 30xx reserve only one antenna\n"));
 }
 
 #if defined (MT7603) || defined (MT7628)
@@ -107,7 +107,7 @@ VOID EnableAPMIMOPSv1(
 	}
 	AsicSwitchChannel(pAd, CentralChannel, FALSE);
 
-	DBGPRINT(RT_DEBUG_INFO, ("EnableAPMIMOPS, 305x/28xx changes the # of antenna to 1\n"));
+	DBGPRINT(RT_DEBUG_OFF, ("7603 EnableAPMIMOPS, 305x/28xx changes the # of antenna to 1\n"));
 }
 
 

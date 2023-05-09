@@ -50,12 +50,12 @@
 
 #define EEPROM_SIZE					0x200
 
-#define EEPROM_DEFULT_BIN_FILE	"RT30xxEEPROM.bin"
+#define EEPROM_DEFULT_BIN_FILE	"MT7603E_EEPROM.bin"
 #ifdef BB_SOC
-#define BIN_FILE_PATH				"/etc/RT30xxEEPROM.bin"
+#define BIN_FILE_PATH				"/etc_ro/Wireless/MT7603E_EEPROM.bin"
 #else
 //#define BIN_FILE_PATH				"/tmp/RT30xxEEPROM.bin"
-#define BIN_FILE_PATH				"/etc/RT30xxEEPROM.bin"
+#define BIN_FILE_PATH				"/etc_ro/Wireless/MT7603E_EEPROM.bin"
 #endif /* BB_SOC */
 
 #define EEPROM_1ST_FILE_DIR		"/etc_ro/Wireless/iNIC/"

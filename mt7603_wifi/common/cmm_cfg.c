@@ -27,6 +27,7 @@
 
 
 #include "rt_config.h"
+#include "qa_agent.h"
 
 static BOOLEAN RT_isLegalCmdBeforeInfUp(RTMP_STRING *SetCmd);
 

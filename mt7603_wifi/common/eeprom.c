@@ -130,7 +130,7 @@ INT rtmp_read_rssi_langain_from_eeprom(RTMP_ADAPTER *pAd)
 	if (((UCHAR)pAd->ALNAGain2 == 0xFF) || (pAd->ALNAGain2 == 0x00))
 		pAd->ALNAGain2 = pAd->ALNAGain0;
 
-	DBGPRINT(RT_DEBUG_TRACE, ("ALNAGain0 = %d, ALNAGain1 = %d, ALNAGain2 = %d\n",
+	DBGPRINT(RT_DEBUG_ERROR, ("ALNAGain0 = %d, ALNAGain1 = %d, ALNAGain2 = %d\n",
 					pAd->ALNAGain0, pAd->ALNAGain1, pAd->ALNAGain2));
 
 	/* Validate 11a/b/g RSSI 0/1/2 offset.*/

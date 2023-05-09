@@ -140,7 +140,7 @@ typedef struct usb_ctrlrequest devctrlrequest;
  *	Profile related sections
  ***********************************************************************************/
 
-#define L1_PROFILE_PATH	"/etc/wireless/l1profile.dat"
+#define L1_PROFILE_PATH	"/etc/Wireless/RT2860/RT2860AP.dat"
 
 #define L1PROFILE_INDEX_LEN		10
 #define	L1PROFILE_ATTRNAME_LEN	30
@@ -165,7 +165,7 @@ typedef struct usb_ctrlrequest devctrlrequest;
 #endif
 
 
-#define AP_DRIVER_VERSION			"4.1.2.1"
+#define AP_DRIVER_VERSION			"4.1.2.1-mao-patch1"
 #ifdef MULTIPLE_CARD_SUPPORT
 #define CARD_INFO_PATH			"/etc/Wireless/RT2860AP/RT2860APCard.dat"
 #endif /* MULTIPLE_CARD_SUPPORT */
