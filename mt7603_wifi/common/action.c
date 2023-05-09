@@ -204,8 +204,8 @@ VOID MlmeADDBAAction(RTMP_ADAPTER *pAd, MLME_QUEUE_ELEM *Elem)
 
 		MlmeFreeMemory(pAd, pOutBuffer);
 		
-		DBGPRINT(RT_DEBUG_OFF,
-					("BA - Send ADDBA request. StartSeq = %x,  FrameLen = %ld. BufSize = %d\n",
+		DBGPRINT(RT_DEBUG_ERROR,
+					("BA - Send ADDBA request. StartSeq = %2X,  FrameLen = %2ld. BufSize = %2d\n",
 					Frame.BaStartSeq.field.StartSeq, FrameLen, Frame.BaParm.BufSize));
     }
 }
