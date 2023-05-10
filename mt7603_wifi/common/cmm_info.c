@@ -2714,7 +2714,8 @@ RTMP_STRING *GetAuthMode(CHAR auth)
     ==========================================================================
 */
 #ifndef WH_EZ_SETUP
-#define	LINE_LEN	(4+65+20+23+9+7+7+3)	/* Channel+SSID(2*32+1)+Bssid+Security+Signal+WiressMode+ExtCh+NetworkType*/
+//#define	LINE_LEN	(4+65+20+23+9+7+7+3)	/* Channel+SSID(2*32+1)+Bssid+Security+Signal+WiressMode+ExtCh+NetworkType*/
+#define	LINE_LEN	(4+33+20+23+9+7+7+3)	/* Channel+SSID(2*32+1)+Bssid+Security+Signal+WiressMode+ExtCh+NetworkType*/
 #endif
 
 #ifdef AIRPLAY_SUPPORT
