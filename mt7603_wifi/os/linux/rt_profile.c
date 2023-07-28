@@ -1235,6 +1235,8 @@ void announce_802_3_packet(
 			ra_sw_nat_hook_rx return 1 --> continue
 			ra_sw_nat_hook_rx return 0 --> FWD & without netif_rx
 		*/
+		int (*ra_sw_nat_hook_rx) (struct sk_buff * skb) = NULL;
+		int (*ra_sw_nat_hook_tx) (struct sk_buff * skb, int gmac_no) = NULL;
 		if (ra_sw_nat_hook_rx!= NULL)
 		{
 			unsigned int flags;

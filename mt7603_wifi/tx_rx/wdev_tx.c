@@ -133,7 +133,7 @@ INT wdev_tx_pkts(NDIS_HANDLE dev_hnd, PPNDIS_PACKET pkt_list, UINT pkt_cnt, stru
 	#ifdef TCSUPPORT_MT7510_FE
 	            if (ra_sw_nat_hook_tx(pPacket, NULL, FOE_MAGIC_WLAN) == 0) 			
 	#else
-	            if (ra_sw_nat_hook_tx(pPacket, 1) == 0) 			
+	            if (ra_sw_nat_hook_tx(pPacket, 0) == 0) 			
 	#endif
 				{
 	                RELEASE_NDIS_PACKET(pAd, pPacket, NDIS_STATUS_FAILURE);
