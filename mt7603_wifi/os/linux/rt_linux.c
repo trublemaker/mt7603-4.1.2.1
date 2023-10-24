@@ -93,8 +93,20 @@ static inline void netdev_priv_set(struct net_device *dev, void *priv)
 #endif
 }
 
+/*
+#define RT_DEBUG_OFF        0
+#define RT_DEBUG_ERROR      1
+#define RT_DEBUG_WARN       2
+#define RT_DEBUG_TRACE      3
+#define RT_DEBUG_INFO       4
+#define RT_DEBUG_LOUD       5
+*/
 
+#ifdef DBG
+ULONG RTDebugLevel = RT_DEBUG_WARN; //RT_DEBUG_WARN//RT_DEBUG_TRACE;//RT_DEBUG_ERROR;//RT_DEBUG_OFF;
+#else
 ULONG RTDebugLevel = RT_DEBUG_OFF;//RT_DEBUG_TRACE;//RT_DEBUG_ERROR;//RT_DEBUG_OFF;
+#endif
 ULONG RTDebugFunc = 0;
 
 #ifdef OS_ABL_FUNC_SUPPORT
